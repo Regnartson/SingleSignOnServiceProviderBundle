@@ -19,8 +19,6 @@
 
         "doctrine/orm": "~2.3",
 
-        "symfony/symfony": "~2.8|~3.0|~4.0|~4.2",
-
         "korotovsky/sso-library": "~0.3.0",
 
         "ext-openssl": "*"
