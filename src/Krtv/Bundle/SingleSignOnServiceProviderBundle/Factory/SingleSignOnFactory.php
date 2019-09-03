@@ -4,7 +4,7 @@ namespace Krtv\Bundle\SingleSignOnServiceProviderBundle\Factory;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory;
 
 /***
@@ -88,7 +88,7 @@ class SingleSignOnFactory extends AbstractFactory
         $providerId = 'security.authentication.provider.krtv_single_sign_on_service_provider.' . $id;
 
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('krtv_single_sign_on_service_provider.security.authentication.provider'))
+            ->setDefinition($providerId, new ChildDefinition('krtv_single_sign_on_service_provider.security.authentication.provider'))
             ->replaceArgument(0, new Reference($userProviderId))
             ->replaceArgument(4, $id)
         ;
@@ -112,10 +112,10 @@ class SingleSignOnFactory extends AbstractFactory
         $config = $this->getOptions($config);
 
         $container
-            ->setDefinition($entryPointId, new DefinitionDecorator('krtv_single_sign_on_service_provider.security.authentication.entry_point'));
+             ->setDefinition($entryPointId, new ChildDefinition('krtv_single_sign_on_service_provider.security.authentication.entry_point'));_single_sign_on_service_provider.security.authentication.entry_point'));
 
         $container
-            ->setDefinition('krtv_single_sign_on_service_provider.context_factory', new DefinitionDecorator('krtv_single_sign_on_service_provider.context_factory.abstract'))
+             ->setDefinition('krtv_single_sign_on_service_provider.context_factory', new ChildDefinition('krtv_single_sign_on_service_provider.context_factory.abstract'))
             ->replaceArgument(0, $config);
 
         // set options to container for use by other classes
@@ -140,7 +140,7 @@ class SingleSignOnFactory extends AbstractFactory
 
         $id = $this->getFailureHandlerId($id);
 
-        $failureHandler = $container->setDefinition($id, new DefinitionDecorator('krtv_single_sign_on_service_provider.authentication.handler.authentication_failure.abstract'));
+        $failureHandler = $container->setDefinition($id, new ChildDefinition('krtv_single_sign_on_service_provider.authentication.handler.authentication_failure.abstract'));
         $failureHandler->replaceArgument(2, $options);
         $failureHandler->addMethodCall('setUriSigner', array(new Reference('krtv_single_sign_on_service_provider.uri_signer')));
 
